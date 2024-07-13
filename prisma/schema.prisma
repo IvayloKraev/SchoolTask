@@ -8,8 +8,16 @@ datasource db {
 }
 
 model Message {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  text           String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  text      String
+  timestamp String
+  usersId   String[] @db.ObjectId
+  users     User[]   @relation(fields: [usersId], references: [id])
+}
+
+model User {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
   authorUsername String
-  timestamp      String
+  messagesID     String[]  @db.ObjectId
+  messages       Message[] @relation(fields: [messagesID], references: [id])
 }
